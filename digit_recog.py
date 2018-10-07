@@ -4,9 +4,6 @@ from math import floor
 import numpy as np
 from multiprocessing import Process
 
-def readWeights():
-    pass
-
 def readTrainingInputs():
     inFile = open('./test_data/inputs.txt', 'r')
     inputs = []
@@ -84,18 +81,3 @@ def bestOfTen():
     np.save('./test_data/wb_ryans_data/weights.npy', bestWeights)
     np.save('./test_data/wb_ryans_data/biases.npy', bestBiases)
 
-def main():
-    myNetwork = Network([72, 10, 5], 0.05, 0.3)
-    myNetwork.biases = np.load('./test_data/wb_ryans_data/biases.npy')
-    myNetwork.weights = np.load('./test_data/wb_ryans_data/weights.npy')
-    inputs, targets = readTrainingInputs()
-    for i in range(0, 339):
-        outs = myNetwork.feedForward(inputs[i])[1]
-        digit = interpretOutputs(outs)
-        ppInputs(inputs[i])
-        print("I think this is a: ", digit, ".")
-        print("This is really a: ", interpretOutputs(targets[i]))
-
-
-if __name__ == '__main__':
-    main()
