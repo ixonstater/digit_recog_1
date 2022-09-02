@@ -23,14 +23,14 @@ def readTrainingInputs():
                 singleInputs.append(int(line[char]))
     return inputs, targets
 
-def ppInputs(arr):
+def ppInputs(arr, file=None):
     for i in range(0, 9):
         for j in range(0, 8):
             if(arr[i * 8 + j] == 0):
-                print('   ', end = '')
+                print('   ', end = '', file=file)
             else:
-                print('*  ', end = '')
-        print('\n')
+                print('*  ', end = '', file=file)
+        print('\n', file=file)
 
 def randomIndex(ceil):
     return floor(random() * ceil)
@@ -46,7 +46,7 @@ def demo(inputs, targets, net):
             done = int(i / 1000)
             if i > 0:
                 print ("\033[A\033[A")
-            print('<*' + '*' * done + ' ' * remaining + '>')
+            print('<' + '*' * done + ' ' * remaining + '>')
         indx = randomIndex(339)
         net.backprop(inputs[indx], targets[indx])
     file = open("outputs.txt", "w+")
