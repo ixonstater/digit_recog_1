@@ -39,15 +39,25 @@ def interpretOutputs(outs):
     return(np.argmax(outs))
 
 def demo(inputs, targets, net):
-    for i in range(0, 80000):
+    samples = 80000
+    for i in range(0, samples):
+        if (i % 1000 == 0):
+            remaining = int((samples - i) / 1000)
+            done = int(i / 1000)
+            if i > 0:
+                print ("\033[A\033[A")
+            print('<*' + '*' * done + ' ' * remaining + '>')
         indx = randomIndex(339)
         net.backprop(inputs[indx], targets[indx])
+    file = open("outputs.txt", "w+")
     for i in range(0, 339):
         outs = net.feedForward(inputs[i])[1]
         digit = interpretOutputs(outs)
-        ppInputs(inputs[i])
-        print("I think this is a: ", digit, ".")
-        print("This is really a: ", interpretOutputs(targets[i]))
+        print("I thought this was a: ", digit, file=file)
+        print("This is really a: ", interpretOutputs(targets[i]), file=file)
+        ppInputs(inputs[i], file=file)
+    file.close()
+    print("Predictions written to outputs.txt file.")
 
 def trainAndTest():
     myNetwork = Network([72, 10, 5], 0.05, 0.3)

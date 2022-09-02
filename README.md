@@ -2,7 +2,7 @@
 
 - the network class requires either a local or a global instance of numpy, the popular python data processing library
 - the class is initialized with three parameters to the constructor:
-	1) a python list containing the number of nodes in the first, second and third layers eg. `[100, 20, 4]`
+	1) a python list containing the number of nodes in the first, second and third layers eg. `[72, 20, 5]`
 	2) a floating point learning rate
 	3) a floating point momentum rate (set to 0 to negate the effects of the momentum term)
 - the class's member functions should be fairly self explanatory, however it is worth mentioning that the `backprop()` function does not loop until an error limit is reached,

@@ -4,13 +4,13 @@ from math import exp
 class Network:
     def __init__(self, networkSpecs, learningRate = 1, momentumRate = 0):
         self.l1N, self.l2N, self.l3N = networkSpecs
-        weights = np.array([np.random.rand(self.l2N, self.l1N), np.random.rand(self.l3N, self.l2N)])
+        weights = np.array([np.random.rand(self.l2N, self.l1N), np.random.rand(self.l3N, self.l2N)], dtype=object)
         self.weights = (weights - 0.5) * 0.1
-        self.biases = np.array([np.random.rand(self.l2N), np.random.rand(self.l3N)])
+        self.biases = np.array([np.random.rand(self.l2N), np.random.rand(self.l3N)], dtype=object)
         self.learningRate = learningRate
         self.momentumRate = momentumRate
-        self.prevWeightUpdates = np.array([np.zeros((self.l2N, self.l1N)), np.zeros((self.l3N, self.l2N))])
-        self.prevBiasUpdates = np.array([np.zeros([self.l2N]), np.zeros([self.l3N])])
+        self.prevWeightUpdates = np.array([np.zeros((self.l2N, self.l1N)), np.zeros((self.l3N, self.l2N))], dtype=object)
+        self.prevBiasUpdates = np.array([np.zeros([self.l2N]), np.zeros([self.l3N])], dtype=object)
 
     def feedForward(self, inputs):
         hiddenOutputs = np.array(list(map(self.sigmoidFunc, [(self.weights[0][i], inputs, self.biases[0][i]) for i in range(0, len(self.biases[0]))])))
@@ -29,10 +29,10 @@ class Network:
         deltaOut = np.array(list(map(lambda arg: arg[0] * arg[1], deltaOut))).reshape(self.l3N, self.l2N)
         deltaHid = np.array(np.meshgrid(hidErrTer, ins)).T.reshape(-1, 2)
         deltaHid = np.array(list(map(lambda arg: arg[0] * arg[1], deltaHid))).reshape(self.l2N, self.l1N)
-        weightUpdates = np.array([deltaHid, deltaOut]) * self.learningRate + self.prevWeightUpdates * self.momentumRate
+        weightUpdates = np.array([deltaHid, deltaOut], dtype=object) * self.learningRate + self.prevWeightUpdates * self.momentumRate
         self.weights += weightUpdates
         self.prevWeightUpdates = weightUpdates
-        biasUpdates = np.array([hidErrTer, outErrTer]) * self.learningRate + self.momentumRate * self.prevBiasUpdates
+        biasUpdates = np.array([hidErrTer, outErrTer], dtype=object) * self.learningRate + self.momentumRate * self.prevBiasUpdates
         self.biases += biasUpdates
         self.prevBiasUpdates = biasUpdates
 
